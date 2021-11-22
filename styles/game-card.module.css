@@ -1,0 +1,48 @@
+.gameCard {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+  background-color: #fff;
+  border: none;
+  outline: 1px solid #ddd;
+  max-width: 450px;
+}
+
+.gameCard>.body {
+  display: grid;
+  grid-template-areas:
+    "away time"
+    "home time";
+  grid-gap: 20px;
+}
+
+.gameCard>.body>.home {
+  grid-area: home;
+}
+
+.gameCard>.body>.away {
+  grid-area: away;
+}
+
+.gameCard>.body>.time {
+  grid-area: time;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid #ddd;
+}
+
+.gameCard>.footer {
+  font-size: 0.7em;
+  font-weight: lighter;
+  line-height: 1.3;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+.gameCard>.footer>div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
