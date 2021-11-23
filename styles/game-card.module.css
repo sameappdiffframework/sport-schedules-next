@@ -10,10 +10,11 @@
 
 .gameCard>.body {
   display: grid;
+  grid-template-columns: 2fr 1fr;
   grid-template-areas:
     "away time"
     "home time";
-  grid-gap: 20px;
+  grid-gap: 15px;
 }
 
 .gameCard>.body>.home {
