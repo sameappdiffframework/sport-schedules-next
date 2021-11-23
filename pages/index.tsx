@@ -59,7 +59,10 @@ const Home: NextPage = () => {
                 <h1>
                     Welcome to <a href="https://nextjs.org">Next.js!</a>
                 </h1>
-                <SingleDaySchedule games={[GAME, GAME]} date={GAME.date} />
+                <SingleDaySchedule games={[GAME, GAME, GAME, GAME]} date={GAME.date} />
+                <SingleDaySchedule games={[GAME, GAME, GAME, GAME]} date={GAME.date} />
+                <SingleDaySchedule games={[GAME, GAME, GAME, GAME]} date={GAME.date} />
+                <SingleDaySchedule games={[GAME, GAME, GAME, GAME]} date={GAME.date} />
             </main>
         </>
     )
