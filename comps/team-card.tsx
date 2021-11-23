@@ -1,5 +1,5 @@
 import React from 'react'
-import { Team } from './game-card'
+import type { Team } from './game-card'
 import Image from 'next/image'
 import styles from '../styles/team-card.module.css'
 

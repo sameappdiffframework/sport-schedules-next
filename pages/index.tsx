@@ -1,12 +1,10 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
 import React from 'react'
-import GameCard from '../comps/game-card'
 import type { Game } from '../comps/game-card'
-import styles from '../styles/Home.module.css'
 import minLogo from '../public/logos/min.png'
 import porLogo from '../public/logos/por.png'
+import SingleDaySchedule from '../comps/single-day-schedule'
 
 const GAME: Game = {
     date: new Date(),
@@ -61,8 +59,7 @@ const Home: NextPage = () => {
                 <h1>
                     Welcome to <a href="https://nextjs.org">Next.js!</a>
                 </h1>
-                <GameCard game={GAME} />
-
+                <SingleDaySchedule games={[GAME, GAME]} date={GAME.date} />
             </main>
         </>
     )
