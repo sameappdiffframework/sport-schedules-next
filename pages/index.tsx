@@ -46,6 +46,11 @@ const GAME: Game = {
     }
 }
 
+const GAMES: Array<{ date: Date, games: Game[] }> = [
+    { date: new Date(), games: [GAME, GAME] },
+    { date: new Date(), games: [GAME, GAME] }
+]
+
 const Home: NextPage = () => {
     return (
         <>
@@ -59,10 +64,7 @@ const Home: NextPage = () => {
                 <h1>
                     Welcome to <a href="https://nextjs.org">Next.js!</a>
                 </h1>
-                <SingleDaySchedule games={[GAME, GAME, GAME, GAME]} date={GAME.date} />
-                <SingleDaySchedule games={[GAME, GAME, GAME, GAME]} date={GAME.date} />
-                <SingleDaySchedule games={[GAME, GAME, GAME, GAME]} date={GAME.date} />
-                <SingleDaySchedule games={[GAME, GAME, GAME, GAME]} date={GAME.date} />
+                {GAMES.map((info, i) => (<SingleDaySchedule key={i} games={info.games} date={info.date} />))}
             </main>
         </>
     )
