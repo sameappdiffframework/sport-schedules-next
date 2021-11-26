@@ -1,9 +1,8 @@
 import React from 'react'
 import styles from '../styles/game-card.module.css'
-import Image from 'next/image'
 import TeamCard from './team-card'
-import espn from '../public/logos/espn.png'
 import type { Game } from '../lib/model'
+import NetworkLogo from './network-logo'
 
 const formatDate = (date: Date): string => {
     const formatOptions: Intl.DateTimeFormatOptions = {
@@ -23,7 +22,7 @@ export default function GameCard({ game }: { game: Game }) {
                     <TeamCard team={game.home} />
                 </div>
                 <div className={styles.time}>
-                    {game.nationalNetwork && <Image src={espn} />}
+                    <NetworkLogo name={game.nationalNetwork} />
                     {formatDate(new Date(game.date))}
                 </div>
             </div>

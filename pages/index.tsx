@@ -26,8 +26,8 @@ const Home: NextPage<{ date: string, games: Game[] }> = ({ date, games }) => {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const schedule = await fetch('https://sport-schedules.netlify.app/basketball.json')
-    // const schedule = await fetch('http://localhost:3000/basketball.json')
+    // const schedule = await fetch('https://sport-schedules.netlify.app/basketball.json')
+    const schedule = await fetch('http://localhost:3000/basketball.json')
         .then(response => response.json() as Promise<Schedule>)
     const groupedGames: Record<string, Game[]> = {};
     schedule.games.forEach(game => {
