@@ -24,9 +24,10 @@ export interface Game {
   home: Team;
   away: Team;
   date: string;
-  location?: {
+  location: {
       arena: string;
       city: string;
+      state: string;
   }
 }
 
@@ -34,15 +35,17 @@ export interface Team {
   abbreviation: string;
   nickname: string;
   city: string;
-  rank: number;
+  powerRank: number;
   sport: string;
-  record?: {
-      wins: number;
-      losses: number;
-      ties?: number;
-      division: string;
-      divisionRank: number
-  }
+  record: TeamRecord;
+}
+
+export interface TeamRecord {
+  wins: number;
+  losses: number;
+  ties?: number;
+  conference: string;
+  conferenceRank: number
 }
 
 export type GameStatus = 'tbd' | 'complete' | 'future' | 'active'

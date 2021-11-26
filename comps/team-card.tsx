@@ -14,21 +14,12 @@ export default function TeamCard({ team }: { team: Team }) {
       <div className={styles.teamInfo}>
         <div className={styles.name}>{team.nickname}</div>
         <div className={styles.stats}>
-          {team.record &&
-            <>
-              {team.record.wins}-{team.record.losses}
-              {team.record.ties !== undefined && <>-{team.record.ties}</>},
-              {team.record.divisionRank}th in {team.record.division}
-            </>
-          }
-          {team.record && team.rank !== undefined &&
-            <br />
-          }
-          {team.rank !== undefined &&
-            <>
-              Power Rank: {team.rank}
-            </>
-          }
+          {team.record.wins}-{team.record.losses}
+          {team.record.ties !== undefined && <>-{team.record.ties}</>}
+          ,&nbsp;
+          {team.record.conferenceRank}th in {team.record.conference}
+          <br />
+          Power Rank: {team.powerRank}
         </div>
       </div>
     </div>

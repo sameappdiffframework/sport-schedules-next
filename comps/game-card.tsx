@@ -32,7 +32,7 @@ export default function GameCard({ game }: { game: Game }) {
                     {game.competitionDescription}
                 </div>
                 <div>
-                    game.location.arena, game.location.city
+                    {game.location.arena}, {game.location.city}, {game.location.state}
                 </div>
             </div>
         </div >
