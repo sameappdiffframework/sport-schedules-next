@@ -1,6 +1,6 @@
 import GameCard from "./game-card";
-import type { Game } from './game-card'
 import styles from '../styles/single-day-schedule.module.css'
+import type { Game } from "../lib/model";
 
 const formatDate = (date: Date): string => {
   const formatOptions: Intl.DateTimeFormatOptions = {

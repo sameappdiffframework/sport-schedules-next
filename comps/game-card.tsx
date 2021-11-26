@@ -3,36 +3,7 @@ import styles from '../styles/game-card.module.css'
 import Image from 'next/image'
 import TeamCard from './team-card'
 import espn from '../public/logos/espn.png'
-
-export interface Team {
-    abbreviation: string;
-    nickname: string;
-    city: string;
-    rank: number;
-    sport: string;
-    logo: StaticImageData,
-    record: {
-        wins: number;
-        losses: number;
-        ties?: number;
-        division: string;
-        divisionRank: number
-    }
-}
-
-export interface Game {
-    code?: string;
-    competition: string;
-    league: string;
-    status: 'tbd' | 'future' | 'complete' | 'active';
-    home: Team;
-    away: Team;
-    date: Date;
-    location: {
-        arena: string;
-        city: string;
-    }
-}
+import type { Game } from '../lib/model'
 
 const formatDate = (date: Date): string => {
     const formatOptions: Intl.DateTimeFormatOptions = {
@@ -53,15 +24,15 @@ export default function GameCard({ game }: { game: Game }) {
                 </div>
                 <div className={styles.time}>
                     <Image src={espn} />
-                    {formatDate(game.date)}
+                    {formatDate(new Date(game.date))}
                 </div>
             </div>
             <div className={styles.footer}>
                 <div>
-                    {game.competition}
+                    {game.competitionDescription}
                 </div>
                 <div>
-                    {game.location.arena}, {game.location.city}
+                    game.location.arena, game.location.city
                 </div>
             </div>
         </div >

@@ -1,57 +1,12 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import React from 'react'
-import type { Game } from '../comps/game-card'
-import minLogo from '../public/logos/min.png'
-import porLogo from '../public/logos/por.png'
 import SingleDaySchedule from '../comps/single-day-schedule'
+import { GetStaticProps } from 'next'
+import type { Game, Schedule } from '../lib/model'
+import { DateTime } from 'luxon'
 
-const GAME: Game = {
-    date: new Date(),
-    competition: 'NBA regular season',
-    league: 'NBA',
-    status: 'future',
-    location: {
-        arena: 'American Airlines Center',
-        city: 'Oklahoma City, OK'
-    },
-    home: {
-        abbreviation: 'POR',
-        nickname: 'Trail Blazers',
-        city: 'Portland',
-        rank: 30,
-        sport: 'Basketball',
-        logo: porLogo,
-        record: {
-            wins: 82,
-            losses: 82,
-            ties: 82,
-            division: 'West',
-            divisionRank: 15
-        }
-    },
-    away: {
-        abbreviation: 'MIN',
-        nickname: 'Timberwolves',
-        city: 'Minnesota',
-        rank: 30,
-        sport: 'Basketball',
-        logo: minLogo,
-        record: {
-            wins: 82,
-            losses: 82,
-            division: 'West',
-            divisionRank: 15
-        }
-    }
-}
-
-const GAMES: Array<{ date: Date, games: Game[] }> = [
-    { date: new Date(), games: [GAME, GAME] },
-    { date: new Date(), games: [GAME, GAME] }
-]
-
-const Home: NextPage = () => {
+const Home: NextPage<{ date: string, games: Game[] }> = ({ date, games }) => {
     return (
         <>
             <Head>
@@ -62,12 +17,34 @@ const Home: NextPage = () => {
 
             <main>
                 <h1>
-                    Welcome to <a href="https://nextjs.org">Next.js!</a>
+                    {date}
                 </h1>
-                {GAMES.map((info, i) => (<SingleDaySchedule key={i} games={info.games} date={info.date} />))}
+                <SingleDaySchedule games={games} date={new Date(date)} />
             </main>
         </>
     )
 }
+
+export const getStaticProps: GetStaticProps = async (context) => {
+    const schedule = await fetch('https://sport-schedules.netlify.app/basketball.json')
+        .then(response => response.json() as Promise<Schedule>)
+    const groupedGames: Record<string, Game[]> = {};
+    schedule.games.forEach(game => {
+        const gameDate = DateTime.fromISO(game.date)
+            .setZone('America/New_York')
+            .startOf('day')
+            .toISO();
+        if (groupedGames[gameDate]) {
+            groupedGames[gameDate].push(game);
+        } else {
+            groupedGames[gameDate] = [game];
+        }
+    });
+    const datestring = Object.keys(groupedGames)[0];
+    return {
+        props: {  date: datestring, games: groupedGames[datestring]}
+    }
+}
+
 
 export default Home
