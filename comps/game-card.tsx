@@ -23,7 +23,7 @@ export default function GameCard({ game }: { game: Game }) {
                     <TeamCard team={game.home} />
                 </div>
                 <div className={styles.time}>
-                    <Image src={espn} />
+                    {game.nationalNetwork && <Image src={espn} />}
                     {formatDate(new Date(game.date))}
                 </div>
             </div>

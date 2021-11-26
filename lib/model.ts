@@ -28,7 +28,8 @@ export interface Game {
       arena: string;
       city: string;
       state: string;
-  }
+  },
+  nationalNetwork?: string;
 }
 
 export interface Team {
