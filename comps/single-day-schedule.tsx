@@ -15,7 +15,9 @@ export default function SingleDaySchedule({ games, date }: { date: DateTime, gam
     <>
       <section className={styles.day}>
         <h2>{formatDate(date)}</h2>
-        {games.map((game, i) => (<GameCard game={game} key={i} />))}
+        <div>
+          {games.map((game, i) => (<GameCard game={game} key={i} />))}
+        </div>
       </section>
     </>
   );
