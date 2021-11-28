@@ -1,12 +1,14 @@
+import { DateTime } from 'luxon'
 import type { NextPage } from 'next'
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import React from 'react'
 import SingleDaySchedule from '../comps/single-day-schedule'
-import { GetStaticProps } from 'next'
-import type { Game, Schedule } from '../lib/model'
-import { DateTime } from 'luxon'
+import type { GamesByDate } from '../lib/model'
 
-const Home: NextPage<{ date: string, games: Game[] }> = ({ date, games }) => {
+const Home: NextPage<{ schedule: GamesByDate, nowDateString: string }> = ({ schedule, nowDateString }) => {
+    const startOfDay = DateTime.fromISO(nowDateString).setZone('America/New_York').startOf('day');
+    const buildTime = DateTime.fromISO(schedule._meta.buildDate).setZone('America/New_York');
     return (
         <>
             <Head>
@@ -16,36 +18,32 @@ const Home: NextPage<{ date: string, games: Game[] }> = ({ date, games }) => {
             </Head>
 
             <main>
-                <h1>
-                    {date}
-                </h1>
-                <SingleDaySchedule games={games} date={new Date(date)} />
+                <h2>Upcoming games</h2>
+                {Object.entries(schedule.gamesByDate)
+                    .filter(([date, games]) => {
+                        const gametime = DateTime.fromISO(date).setZone('America/New_York');
+                        const sevenDaysFromNow = startOfDay
+                            .setZone('America/New_York')
+                            .plus({ days: 7 })
+                            .startOf('day')
+                        return startOfDay <= gametime && gametime <= sevenDaysFromNow
+                    })
+                    .map(([date, games], i) => (<SingleDaySchedule games={games} date={new Date(date)} key={i} />))
+                }
             </main>
+            <footer>
+                <p><small>The data powering this site was gathered at {buildTime.toISO()}</small></p>
+            </footer>
         </>
     )
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const schedule = await fetch('https://sport-schedules.netlify.app/basketball.json')
-    // const schedule = await fetch('http://localhost:3000/basketball.json')
-        .then(response => response.json() as Promise<Schedule>)
-    const groupedGames: Record<string, Game[]> = {};
-    schedule.games.forEach(game => {
-        const gameDate = DateTime.fromISO(game.date)
-            .setZone('America/New_York')
-            .startOf('day')
-            .toISO();
-        if (groupedGames[gameDate]) {
-            groupedGames[gameDate].push(game);
-        } else {
-            groupedGames[gameDate] = [game];
-        }
-    });
-    const datestring = Object.keys(groupedGames)[0];
+    const schedule = await fetch('https://sport-schedules.netlify.app/basketball/gamesByDate.json')
+        .then(response => response.json() as Promise<GamesByDate>)
     return {
-        props: {  date: datestring, games: groupedGames[datestring]}
+        props: { schedule: schedule, nowDateString: DateTime.now().toISO() }
     }
 }
-
 
 export default Home

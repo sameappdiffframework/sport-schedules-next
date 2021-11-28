@@ -1,20 +1,3 @@
-/* export interface Team {
-  abbreviation: string;
-  nickname: string;
-  city: string;
-  rank: number;
-  sport: string;
-  logo: StaticImageData,
-  record: {
-      wins: number;
-      losses: number;
-      ties?: number;
-      division: string;
-      divisionRank: number
-  }
-}
-*/
-
 export interface Game {
   code: string;
   description: string;
@@ -25,9 +8,9 @@ export interface Game {
   away: Team;
   date: string;
   location: {
-      arena: string;
-      city: string;
-      state: string;
+    arena: string;
+    city: string;
+    state: string;
   },
   nationalNetwork?: string;
 }
@@ -51,11 +34,10 @@ export interface TeamRecord {
 
 export type GameStatus = 'tbd' | 'complete' | 'future' | 'active'
 
-export interface Schedule {
+export interface MetaInfo {
   _meta: {
     buildDate: string;
-  };
-  games: Game[];
-  teams: Team[];
-  teamSchedules: Map<string, Game[]>
+  }
 }
+
+export type GamesByDate = { gamesByDate: Record<string, Game[]> } & MetaInfo;

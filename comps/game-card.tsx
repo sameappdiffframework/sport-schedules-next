@@ -6,7 +6,7 @@ import NetworkLogo from './network-logo'
 
 const formatDate = (date: Date): string => {
     const formatOptions: Intl.DateTimeFormatOptions = {
-        timeZone: 'UTC', hour: 'numeric', minute: 'numeric', timeZoneName: 'short'
+        timeZone: 'America/Chicago', hour: 'numeric', minute: 'numeric', timeZoneName: 'short'
     };
     return date.toLocaleString(undefined, formatOptions);
 }

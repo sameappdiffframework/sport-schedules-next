@@ -6,7 +6,7 @@ const formatDate = (date: Date): string => {
   const formatOptions: Intl.DateTimeFormatOptions = {
     timeZone: 'America/New_York', weekday: 'short', day: 'numeric', month: 'short'
   };
-  return date.toLocaleString(undefined, formatOptions);
+  return date.toLocaleString('en-US', formatOptions);
 }
 
 export default function SingleDaySchedule({ games, date }: { date: Date, games: Game[] }) {
