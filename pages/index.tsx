@@ -6,9 +6,14 @@ import React from 'react'
 import SingleDaySchedule from '../comps/single-day-schedule'
 import type { GamesByDate } from '../lib/model'
 
+const BUILD_TIME_FORMAT_OPTIONS: Intl.DateTimeFormatOptions = {
+    weekday: 'short', day: 'numeric', month: 'short',
+    hour: 'numeric', minute: 'numeric', timeZoneName: 'short'
+}
+
 const Home: NextPage<{ schedule: GamesByDate, nowDateString: string }> = ({ schedule, nowDateString }) => {
     const startOfDay = DateTime.fromISO(nowDateString).setZone('America/New_York').startOf('day');
-    const buildTime = DateTime.fromISO(schedule._meta.buildDate).setZone('America/New_York');
+    const buildTime = DateTime.fromISO(schedule._meta.buildDate).setZone('America/Chicago');
     return (
         <>
             <Head>
@@ -20,7 +25,7 @@ const Home: NextPage<{ schedule: GamesByDate, nowDateString: string }> = ({ sche
             <main>
                 <h2>Upcoming games</h2>
                 {Object.entries(schedule.gamesByDate)
-                    .filter(([date, games]) => {
+                    .filter(([date]) => {
                         const gametime = DateTime.fromISO(date).setZone('America/New_York');
                         const sevenDaysFromNow = startOfDay
                             .setZone('America/New_York')
@@ -28,11 +33,11 @@ const Home: NextPage<{ schedule: GamesByDate, nowDateString: string }> = ({ sche
                             .startOf('day')
                         return startOfDay <= gametime && gametime <= sevenDaysFromNow
                     })
-                    .map(([date, games], i) => (<SingleDaySchedule games={games} date={new Date(date)} key={i} />))
+                    .map(([date, games], i) => (<SingleDaySchedule games={games} date={DateTime.fromISO(date)} key={i} />))
                 }
             </main>
             <footer>
-                <p><small>The data powering this site was gathered at {buildTime.toISO()}</small></p>
+                <p><small>The data powering this site was gathered at {buildTime.toLocaleString(BUILD_TIME_FORMAT_OPTIONS)}.</small></p>
             </footer>
         </>
     )

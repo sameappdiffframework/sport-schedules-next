@@ -3,12 +3,13 @@ import styles from '../styles/game-card.module.css'
 import TeamCard from './team-card'
 import type { Game } from '../lib/model'
 import NetworkLogo from './network-logo'
+import { DateTime } from 'luxon'
 
-const formatDate = (date: Date): string => {
+const formatDate = (date: DateTime): string => {
     const formatOptions: Intl.DateTimeFormatOptions = {
-        timeZone: 'America/Chicago', hour: 'numeric', minute: 'numeric', timeZoneName: 'short'
+        hour: 'numeric', minute: 'numeric', timeZoneName: 'short'
     };
-    return date.toLocaleString(undefined, formatOptions);
+    return date.setZone('America/Chicago').toLocaleString(formatOptions);
 }
 
 export default function GameCard({ game }: { game: Game }) {
@@ -23,7 +24,7 @@ export default function GameCard({ game }: { game: Game }) {
                 </div>
                 <div className={styles.time}>
                     <NetworkLogo name={game.nationalNetwork} />
-                    {formatDate(new Date(game.date))}
+                    {formatDate(DateTime.fromISO(game.date))}
                 </div>
             </div>
             <div className={styles.footer}>
