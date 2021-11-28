@@ -1,10 +1,22 @@
-import Image from 'next/image'
 import React from 'react'
 import type { Team } from '../lib/model'
-import porLogo from '../public/logos/por.png'
 import styles from '../styles/team-card.module.css'
 import TeamLogo from './team-logo'
 
+const ordinal = (num: number) => {
+  const ordinalRules = new Intl.PluralRules("en", { type: "ordinal" });
+  const suffixes: Record<Intl.LDMLPluralRule, string> = {
+    one: "st",
+    two: "nd",
+    few: "rd",
+    other: "th",
+    // these should never occur in this context
+    zero: '',
+    many: ''
+  };
+  const suffix = suffixes[ordinalRules.select(num)];
+  return (num + suffix);
+}
 
 export default function TeamCard({ team }: { team: Team }) {
   return (
@@ -18,7 +30,7 @@ export default function TeamCard({ team }: { team: Team }) {
           {team.record.wins}-{team.record.losses}
           {team.record.ties !== undefined && <>-{team.record.ties}</>}
           ,&nbsp;
-          {team.record.conferenceRank}th in {team.record.conference}
+          {ordinal(team.record.conferenceRank)} in {team.record.conference}
           <br />
           Power Rank: {team.powerRank}
         </div>
