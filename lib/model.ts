@@ -13,6 +13,7 @@ export interface Game {
     state: string;
   },
   nationalNetwork?: string;
+  topTenMatchup: boolean;
 }
 
 export interface Team {

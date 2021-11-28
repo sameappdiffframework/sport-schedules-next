@@ -13,8 +13,9 @@ const formatDate = (date: DateTime): string => {
 }
 
 export default function GameCard({ game }: { game: Game }) {
+    const classes = (game.topTenMatchup) ? [styles.gameCard, styles.highlight] : [styles.gameCard];
     return (
-        <div className={styles.gameCard}>
+        <div className={classes.join(' ')}>
             <div className={styles.body}>
                 <div className={styles.away}>
                     <TeamCard team={game.away} />

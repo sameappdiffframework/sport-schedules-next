@@ -4,15 +4,14 @@ import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import React from 'react'
 import SingleDaySchedule from '../comps/single-day-schedule'
-import type { GamesByDate } from '../lib/model'
+import type { Game, GamesByDate } from '../lib/model'
 
 const BUILD_TIME_FORMAT_OPTIONS: Intl.DateTimeFormatOptions = {
     weekday: 'short', day: 'numeric', month: 'short',
     hour: 'numeric', minute: 'numeric', timeZoneName: 'short'
 }
 
-const Home: NextPage<{ schedule: GamesByDate, nowDateString: string }> = ({ schedule, nowDateString }) => {
-    const startOfDay = DateTime.fromISO(nowDateString).setZone('America/New_York').startOf('day');
+const Home: NextPage<{ schedule: GamesByDate }> = ({ schedule }) => {
     const buildTime = DateTime.fromISO(schedule._meta.buildDate).setZone('America/Chicago');
     return (
         <>
@@ -25,14 +24,6 @@ const Home: NextPage<{ schedule: GamesByDate, nowDateString: string }> = ({ sche
             <main>
                 <h2>Upcoming games</h2>
                 {Object.entries(schedule.gamesByDate)
-                    .filter(([date]) => {
-                        const gametime = DateTime.fromISO(date).setZone('America/New_York');
-                        const sevenDaysFromNow = startOfDay
-                            .setZone('America/New_York')
-                            .plus({ days: 7 })
-                            .startOf('day')
-                        return startOfDay <= gametime && gametime <= sevenDaysFromNow
-                    })
                     .map(([date, games], i) => (<SingleDaySchedule games={games} date={DateTime.fromISO(date)} key={i} />))
                 }
             </main>
@@ -44,10 +35,24 @@ const Home: NextPage<{ schedule: GamesByDate, nowDateString: string }> = ({ sche
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
+    function filterGamesToTheNextWeek(gamesByDate: Record<string, Game[]>): Record<string, Game[]> {
+        const entries = Object.entries(gamesByDate)
+            .filter(([date]) => {
+                const gametime = DateTime.fromISO(date).setZone('America/New_York');
+                const sevenDaysFromNow = startOfDay
+                    .setZone('America/New_York')
+                    .plus({ days: 7 })
+                    .startOf('day')
+                return startOfDay <= gametime && gametime <= sevenDaysFromNow
+            })
+        return Object.fromEntries(entries)
+    }
+    const startOfDay = DateTime.now().setZone('America/New_York').startOf('day');
     const schedule = await fetch('https://sport-schedules.netlify.app/basketball/gamesByDate.json')
         .then(response => response.json() as Promise<GamesByDate>)
+        .then(schedule => Object.assign({}, schedule, { gamesByDate: filterGamesToTheNextWeek(schedule.gamesByDate) }));
     return {
-        props: { schedule: schedule, nowDateString: DateTime.now().toISO() }
+        props: { schedule: schedule }
     }
 }
 

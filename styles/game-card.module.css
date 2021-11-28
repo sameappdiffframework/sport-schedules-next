@@ -8,6 +8,15 @@
   max-width: 450px;
 }
 
+.gameCard.highlight {
+  background-color: #ddd;
+  outline: 1px solid #aaa;
+}
+
+.gameCard.highlight>.body>.time {
+  border-left: 1px solid #aaa;
+}
+
 .gameCard>.body {
   display: grid;
   grid-template-columns: 2fr 1fr;
