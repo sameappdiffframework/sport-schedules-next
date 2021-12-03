@@ -1,5 +1,5 @@
 import GameCard from "./game-card";
-import styles from '../styles/single-day-schedule.module.css'
+import styles from '../styles/single-day-schedule.module.scss'
 import type { Game } from "../lib/model";
 import { DateTime } from "luxon";
 

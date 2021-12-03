@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import React from 'react'
+import Header from '../comps/header'
 import SingleDaySchedule from '../comps/single-day-schedule'
 import type { Game, GamesByDate } from '../lib/model'
 
@@ -21,8 +22,8 @@ const Home: NextPage<{ schedule: GamesByDate }> = ({ schedule }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
+            <Header />
             <main>
-                <h2>Upcoming games</h2>
                 {Object.entries(schedule.gamesByDate)
                     .map(([date, games], i) => (<SingleDaySchedule games={games} date={DateTime.fromISO(date)} key={i} />))
                 }

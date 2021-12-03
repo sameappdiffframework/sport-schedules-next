@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../styles/game-card.module.css'
+import styles from '../styles/game-card.module.scss'
 import TeamCard from './team-card'
 import type { Game } from '../lib/model'
 import NetworkLogo from './network-logo'

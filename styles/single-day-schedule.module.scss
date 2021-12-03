@@ -1,3 +1,5 @@
+@import "./theme.scss";
+
 .day {
   display: flex;
   flex-direction: column;
@@ -19,11 +21,11 @@
 
 .day>h2 {
   position: sticky;
-  top: 0;
-  /* TODO: pull this from sakura */
-  background-color: #f9f9f9;
+  top: calc(0.8em + 6px);
+  background-color: $color-fade;
   z-index: 1;
-  /* this covers up each card's outline on scroll, completing the sticky effect */
-  margin-left: -1px;
-  margin-right: -1px;
+  padding: 7px 13px;
+  filter: drop-shadow(0 1px 1px #333);
+  color: $color-text-alt;
+  font-weight: normal;
 }
