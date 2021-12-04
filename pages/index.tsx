@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import type { NextPage } from 'next'
-import { GetStaticProps } from 'next'
+import type { GetStaticProps } from 'next'
 import Head from 'next/head'
 import React from 'react'
 import Header from '../comps/header'
@@ -12,7 +12,11 @@ const BUILD_TIME_FORMAT_OPTIONS: Intl.DateTimeFormatOptions = {
     hour: 'numeric', minute: 'numeric', timeZoneName: 'short'
 }
 
-const Home: NextPage<{ schedule: GamesByDate }> = ({ schedule }) => {
+interface PageProps {
+    schedule: GamesByDate
+}
+
+const Home: NextPage<PageProps> = ({ schedule }) => {
     const buildTime = DateTime.fromISO(schedule._meta.buildDate).setZone('America/Chicago');
     return (
         <>
@@ -35,8 +39,9 @@ const Home: NextPage<{ schedule: GamesByDate }> = ({ schedule }) => {
     )
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
     function filterGamesToTheNextWeek(gamesByDate: Record<string, Game[]>): Record<string, Game[]> {
+        const startOfDay = DateTime.now().setZone('America/New_York').startOf('day');
         const entries = Object.entries(gamesByDate)
             .filter(([date]) => {
                 const gametime = DateTime.fromISO(date).setZone('America/New_York');
@@ -48,7 +53,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
             })
         return Object.fromEntries(entries)
     }
-    const startOfDay = DateTime.now().setZone('America/New_York').startOf('day');
     const schedule = await fetch('https://sport-schedules.netlify.app/basketball/gamesByDate.json')
         .then(response => response.json() as Promise<GamesByDate>)
         .then(schedule => Object.assign({}, schedule, { gamesByDate: filterGamesToTheNextWeek(schedule.gamesByDate) }));
