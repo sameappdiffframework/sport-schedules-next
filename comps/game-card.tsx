@@ -4,16 +4,11 @@ import TeamCard from './team-card'
 import type { Game } from '../lib/model'
 import NetworkLogo from './network-logo'
 import { DateTime } from 'luxon'
+import { formatDate, formatTime } from '../lib/utils'
 
-const formatDate = (date: DateTime): string => {
-    const formatOptions: Intl.DateTimeFormatOptions = {
-        hour: 'numeric', minute: 'numeric', timeZoneName: 'short'
-    };
-    return date.setZone('America/Chicago').toLocaleString(formatOptions);
-}
-
-export default function GameCard({ game }: { game: Game }) {
+export default function GameCard({ game, showDate }: { game: Game, showDate?: boolean }) {
     const classes = (game.topTenMatchup) ? [styles.gameCard, styles.highlight] : [styles.gameCard];
+    const gametime = DateTime.fromISO(game.date);
     return (
         <div className={classes.join(' ')}>
             <div className={styles.body}>
@@ -25,7 +20,8 @@ export default function GameCard({ game }: { game: Game }) {
                 </div>
                 <div className={styles.time}>
                     <NetworkLogo name={game.nationalNetwork} />
-                    {formatDate(DateTime.fromISO(game.date))}
+                    {showDate === true && <p>{formatDate(gametime)}</p>}
+                    <p>{formatTime(gametime)}</p>
                 </div>
             </div>
             <div className={styles.footer}>

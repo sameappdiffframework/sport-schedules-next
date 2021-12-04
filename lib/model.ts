@@ -41,4 +41,6 @@ export interface MetaInfo {
   }
 }
 
+export type TeamSchedules = { teamSchedules: Record<string, Game[]> } & MetaInfo;
+export type Teams = { teams: Team[] } & MetaInfo;
 export type GamesByDate = { gamesByDate: Record<string, Game[]> } & MetaInfo;
