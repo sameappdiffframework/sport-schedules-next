@@ -1,6 +1,6 @@
 import React from 'react'
 import type { Team } from '../lib/model'
-import styles from '../styles/team-card.module.css'
+import styles from '../styles/team-card.module.scss'
 import TeamLogo from './team-logo'
 
 const ordinal = (num: number) => {
