@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon'
-import type { NextPage } from 'next'
-import type { GetStaticProps } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import React from 'react'
 import Header from '../comps/header'
