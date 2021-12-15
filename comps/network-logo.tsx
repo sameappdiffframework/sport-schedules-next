@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from '../styles/network-logo.module.scss'
 
 const NETWORK_LOGOS: Record<string, { width: number, height: number }> = {
   'nbatv': {
@@ -25,6 +26,7 @@ export default function NetworkLogo({ name }: { name: string | undefined }) {
     const logoInfo = NETWORK_LOGOS[serializedName]
     return (
       <img src={`/networks/${serializedName}.png`}
+        className={styles.networkLogo}
         alt={name}
         width={logoInfo.width}
         height={logoInfo.height}

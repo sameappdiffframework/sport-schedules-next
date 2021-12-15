@@ -1,32 +1,16 @@
+@import "../node_modules/normalize.css/normalize.css";
+@import '@fontsource/roboto/300.css';
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
 @import "./theme.scss";
 @import "../node_modules/sakura.css/scss/main";
-
-h1, h2, h3, h4, h5, h6 {
-  margin-top: 0.4em;
-  margin-bottom: 0.4em;
-}
 
 body {
   max-width: unset;
   padding: unset;
 }
 
-footer, header {
-  padding: 0 13px;
-}
-
-footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-header {
-  background-color: $color-blossom;
-  color: $color-text-alt;
-  font-size: 0.8em;
-  font-weight: lighter;
-  position: sticky;
-  top: 0;
-  z-index: 2;
+main {
+  padding: 0.5em;
 }
