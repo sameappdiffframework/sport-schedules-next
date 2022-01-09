@@ -1,3 +1,5 @@
+import {DateTime} from 'luxon';
+
 export interface Game {
   code: string;
   description: string;
@@ -6,7 +8,7 @@ export interface Game {
   status: GameStatus;
   home: Team;
   away: Team;
-  date: string;
+  date: DateTime;
   location: {
     arena: string;
     city: string;
@@ -30,17 +32,7 @@ export interface TeamRecord {
   losses: number;
   ties?: number;
   conference: string;
-  conferenceRank: number
+  conferenceRank: number;
 }
 
 export type GameStatus = 'tbd' | 'complete' | 'future' | 'active'
-
-export interface MetaInfo {
-  _meta: {
-    buildDate: string;
-  }
-}
-
-export type TeamSchedules = { teamSchedules: Record<string, Game[]> } & MetaInfo;
-export type Teams = { teams: Team[] } & MetaInfo;
-export type GamesByDate = { gamesByDate: Record<string, Game[]> } & MetaInfo;
