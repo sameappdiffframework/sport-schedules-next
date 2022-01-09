@@ -4,7 +4,7 @@ import type {DataNode, Element} from 'domhandler';
 import {DateTime} from 'luxon';
 import fetch from 'node-fetch';
 import type {Game, GameStatus, Team, TeamRecord} from '../../model';
-import {parseSingleDaySchedules} from '../shared';
+import {parseSingleDaySchedules, parseTeams, parseTeamSchedules} from '../shared';
 import type {RawNBAGame, RawNBAMonthlySchedule, RawNBASchedule, RawNBAStandings, RawNBATeam} from './model';
 
 const SPORT = 'basketball';
@@ -110,8 +110,16 @@ function findTeamRecord(teamAbbreviation: string, standings: RawNBAStandings): T
   };
 }
 
-export function getGamesByDate(): Promise<Record<string, Game[]>> {
+function getNBAGames(): Promise<Game[]> {
   return Promise.all([getRawNBASchedule(), getRankings(), getStandings()])
-    .then(([schedule, rankings, standings]) => parseRawGames(schedule, rankings, standings))
-    .then(parseSingleDaySchedules);
+    .then(([schedule, rankings, standings]) => parseRawGames(schedule, rankings, standings));
+}
+
+export function getGamesByDate(): Promise<Record<string, Game[]>> {
+  return getNBAGames().then(parseSingleDaySchedules);
+}
+
+export type TeamInfo = [Team[], Map<string, Game[]>]
+export function getTeamSchedules(): Promise<TeamInfo> {
+  return getNBAGames().then(games => [parseTeams(games), parseTeamSchedules(games)]);
 }
