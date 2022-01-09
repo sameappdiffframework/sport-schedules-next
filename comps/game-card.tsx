@@ -2,17 +2,15 @@ import React from 'react';
 import TeamCard from './team-card';
 import type {Game} from '../lib/model';
 import NetworkLogo from './network-logo';
-import {DateTime} from 'luxon';
-import {formatDate, formatTime} from '../lib/utils';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import {formatDate, formatTime} from '../lib/utils';
 
 export default function GameCard({game, showDate}: { game: Game, showDate?: boolean }) {
-  const gameTime = DateTime.fromISO(game.date);
   const rightColumnStackStyle = {height: '100%', 'border-left': '1px solid rgba(0, 0, 0, 0.12)'} as const;
   return (
     <Card variant="outlined" sx={{maxWidth: '450px'}}>
@@ -31,11 +29,11 @@ export default function GameCard({game, showDate}: { game: Game, showDate?: bool
                 <NetworkLogo name={game.nationalNetwork}/>
                 {showDate &&
                   <Typography paragraph={true} variant="subtitle1" color="text.secondary" align="center">
-                    {formatDate(gameTime)}
+                    {formatDate(game.date)}
                   </Typography>
                 }
                 <Typography paragraph={true} variant="subtitle1" color="text.secondary" align="center">
-                  {formatTime(gameTime)}
+                  {formatTime(game.date)}
                 </Typography>
               </Stack>
             </Grid>
