@@ -1,16 +1,14 @@
 
 import React from 'react'
-import styles from '../styles/header.module.scss'
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 
 export default function Header() {
   return (
-    <header>
-      <nav className={styles.nav}>
-        <ul>
-          <li className={styles.brand}><a href="/">Sport schedules</a></li>
-          <li>Filters</li>
-        </ul>
-      </nav>
-    </header>
+    <AppBar position="static">
+      <Toolbar>
+        Sport Schedules
+      </Toolbar>
+    </AppBar>
   )
 }

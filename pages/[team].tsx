@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon'
-import type { GetStaticPaths, NextPage } from 'next'
-import { GetStaticProps } from 'next'
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import type { ParsedUrlQuery } from 'node:querystring'
 import React from 'react'
