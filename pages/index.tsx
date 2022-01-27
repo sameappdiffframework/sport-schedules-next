@@ -36,7 +36,8 @@ const Home = ({games}: InferGetServerSidePropsType<typeof getServerSideProps>) =
   );
 };
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<PageProps> = async ({res}) => {
+  res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=10');
   function filterGamesToTheNextWeek(gamesByDate: Record<string, Game[]>): Record<string, Game[]> {
     const startOfToday = DateTime.now().setZone('America/New_York').startOf('day');
     const entries = Object.entries(gamesByDate)
